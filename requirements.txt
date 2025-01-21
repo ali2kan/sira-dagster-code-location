@@ -1,0 +1,45 @@
+# Core Dagster dependencies
+dagster>=1.9.8
+dagster-webserver>=0.25.8
+dagster-docker>=0.25.8
+dagster-embedded-elt>=0.25.8
+dagster-postgres>=0.25.8
+dagster-aws>=0.25.8
+dagster-shell>=0.25.8
+dagster-dlt==0.25.9
+dagster-dbt>=0.25.8
+dagster-duckdb>=0.25.8
+
+# Utility dependencies
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+
+# Database and storage dependencies
+dlt>=1.5.0
+clickhouse-connect>=0.8.0
+dlt[clickhouse,parquet,postgres,filesystem,duckdb]>=1.5.0
+pyarrow>=14.0.1
+sqlalchemy~=2.0.37
+s3fs>=2024.12.0
+
+# Data processing dependencies
+numpy>=1.24.2
+pandas>=2.0.0
+
+smart_open>=7.1.0
+smart_open[s3]>=7.1.0
+boto3>=1.34.36
+
+# Utility dependencies
+requests>=2.31.0
+PyYAML>=6.0
+
+# Dagster Universe dependencies
+geopandas >=0.14.0
+kaleido >=1.0.0rc0
+plotly >=5.24.1
+shapely >=2.0.1
+
+
+# pytest>=7.0.0
+# docker>=6.0.0

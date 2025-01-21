@@ -1,0 +1,60 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dagster-code-location"
+version = "1.0.0"
+description = "Production-ready Docker deployment setup for Dagster Code Locations"
+requires-python = ">=3.12"
+dependencies = [
+    "dagster>=1.9.8",
+    "dagster-webserver>=0.25.8",
+    "dagster-docker>=0.25.8",
+    "dagster-postgres>=0.25.8",
+    "dagster-aws>=0.25.8",
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.0.0",
+]
+
+[tool.dagster]
+module_name = "sira_dagster_code_location"
+
+[tool.black]
+line-length = 150
+preview = true
+# target-version = ['py312']
+[tool.ruff]
+line-length = 150
+target-version = "py312"
+select = [
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "F", # pyflakes
+    "I", # isort
+    "B", # flake8-bugbear
+]
+
+[tool.ruff.lint]
+extend-ignore = [
+    "F401",   # Unused import - We stub some files with just imports
+    "I001",   # Import block sorting - We prefer imports in order of use
+    "TID252", # Relative imports are acceptable in examples & docs
+    "E501",   # Line length - We're using Black's line length instead
+]
+
+[tool.isort]
+profile = "black"
+line_length = 150
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+force-multiline = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-ra -q"
+# asyncio_mode = "auto"

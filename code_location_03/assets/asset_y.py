@@ -1,0 +1,11 @@
+import json
+import os
+
+from dagster import asset
+
+
+@asset
+def asset_y():
+    os.makedirs("data", exist_ok=True)
+    with open("data/asset_y.json", "w") as f:
+        json.dump([1, 2, 3], f)

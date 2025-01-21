@@ -1,0 +1,28 @@
+common:
+  aws:
+    bucket: ${AWS_BUCKET:-etl-dagster-data}
+    region: ${AWS_REGION:-us-east-1}
+  database:
+    host: ${DATABASE_HOST:-localhost}
+    name: ${DATABASE_NAME:-etl_db}
+    password: ${DATABASE_PASSWORD:-etl_password}
+    port: ${DATABASE_PORT:-5432}
+    user: ${DATABASE_USER:-etl_user}
+  network: ${DAGSTER_NETWORK:-dagster_network}
+
+pipelines:
+  template:
+    enabled: false
+    port: 4000
+    prefix: op-io-data-template
+    schedule: '*/5 * * * *'
+
+  # ----------------------------------------
+  # Generated Pipelines Below
+  # ----------------------------------------
+
+  sira_data_pipeline:
+    enabled: true
+    port: 4001
+    prefix: op-io-data-sira_data_pipeline
+    schedule: '*/5 * * * *'

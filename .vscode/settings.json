@@ -1,0 +1,63 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "editor.rulers": [150],
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit",
+      "source.fixAll.ruff": "explicit",
+      "ruff.lint.run": "explicit"
+    }
+  },
+  "python.analysis.typeCheckingMode": "basic",
+  "black-formatter.args": ["--line-length", "150", "--preview"],
+  "python.analysis.extraPaths": ["./src"],
+  "python.pythonPath": "/Users/ali2kan/Code/dlt/dlt-sira-test-01/.venv/bin/python",
+  "isort.args": ["--profile", "black"],
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.yaml": "explicit"
+    }
+  },
+  "yaml.format.enable": true,
+  "yaml.format.singleQuote": false,
+  "yaml.format.bracketSpacing": true,
+  "yaml.format.proseWrap": "preserve",
+  "yaml.validate": true,
+  "yaml.schemas": {
+    "http://json.schemastore.org/github-workflow": "/.github/workflows/*.{yml,yaml}",
+    "http://json.schemastore.org/prettierrc": ".prettierrc.{yml,yaml}"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.markdownlint": "explicit"
+    }
+  },
+  "markdownlint.config": {
+    "MD029": false, // Disable ordered list number check
+    "MD007": {
+      // Unordered list indentation
+      "indent": 2
+    },
+    "MD013": {
+      // Line length
+      "line_length": 500,
+      "code_blocks": false,
+      "tables": false
+    }
+  }
+}

@@ -1,0 +1,42 @@
+services:
+  default_pipeline:
+    image: ${PIPELINE_IMAGE:-standard-pipeline}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DAGSTER_POSTGRES_USER: ${DAGSTER_POSTGRES_USER:-postgres_user}
+      DAGSTER_POSTGRES_PASSWORD: ${DAGSTER_POSTGRES_PASSWORD:-postgres_password}
+      DAGSTER_POSTGRES_DB: ${DAGSTER_POSTGRES_DB:-postgres_db}
+      PYTHONPATH: "/opt/dagster/app"
+      PIPELINE_NAME: "default"
+      GRPC_PORT: "4000"
+    volumes:
+      - ./pipelines:/opt/dagster/app/pipelines
+    command:
+      [
+        "dagster",
+        "api",
+        "grpc",
+        "-h",
+        "0.0.0.0",
+        "-p",
+        "4000",
+        "-m",
+        "pipelines.default",
+        "-d",
+        "/opt/dagster/app"
+      ]
+    ports:
+      - "4000:4000"
+    networks:
+      - dagster_network
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "4000"]
+      interval: 10s
+      retries: 3
+
+networks:
+  dagster_network:
+    external: true
+    name: ${DAGSTER_NETWORK:-dagster_network}
