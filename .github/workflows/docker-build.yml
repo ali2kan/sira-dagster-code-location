@@ -1,18 +1,11 @@
-name: Build and Push Code Location Base Image
+name: Build and Push Docker Image
 
 on:
   push:
     branches: [main]
     tags: ["v*"]
-    paths:
-      - "Dockerfile"
-      - "requirements.txt"
-      - ".github/workflows/docker-build.yml"
   pull_request:
     branches: [main]
-    paths:
-      - "Dockerfile"
-      - "requirements.txt"
 
 env:
   REGISTRY: ghcr.io
@@ -43,22 +36,22 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata
+      - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
-            type=semver,pattern={{version}}
-            type=sha,format=short
+            type=raw,value=stable,enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+            type=ref,event=tag
           labels: |
             org.opencontainers.image.title=Dagster Code Location Base
             org.opencontainers.image.description=Lean base image for Dagster code locations
             com.dagster.type=code-location-base
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           platforms: linux/amd64,linux/arm64
