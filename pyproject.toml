@@ -12,7 +12,12 @@ dependencies = [
     "dagster-webserver>=0.25.8",
     "dagster-docker>=0.25.8",
     "dagster-postgres>=0.25.8",
+    "dagster-duckdb-pandas>=0.25.8",
+    "dagster-embedded-elt>=0.25.8",
+    "dagster-dbt>=0.25.8",
     "dagster-aws>=0.25.8",
+    "dagster-shell>=0.25.8",
+    "dagster-dlt==0.25.9",
     "python-dotenv>=1.0.0",
     "pydantic>=2.0.0",
 ]
