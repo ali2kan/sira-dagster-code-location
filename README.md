@@ -2,6 +2,26 @@
 
 A production-ready Docker template for Dagster Code Locations, providing a standardized starting point for implementing data pipelines. This repository serves as both a boilerplate and a reference implementation for Dagster code locations.
 
+## 🔗 Related Repositories
+
+This repository is designed to work with [sira-dagster-core](https://github.com/ali2kan/sira-dagster-core), which provides the core Dagster infrastructure. While this repository contains your pipeline code, sira-dagster-core manages the Dagster webserver, daemon, and core infrastructure.
+
+## 🏗️ Distributed Architecture
+
+This repository represents one half of a distributed Dagster setup:
+
+1. **Core Infrastructure ([sira-dagster-core](https://github.com/ali2kan/sira-dagster-core))**:
+   - Dagster webserver and daemon processes
+   - Core infrastructure configuration
+   - Base monitoring and scheduling
+   - Database and storage management
+
+2. **Code Location (This Repository)**:
+   - Contains actual pipeline definitions
+   - Separate deployment lifecycle
+   - Independent versioning
+   - Flexible scaling options
+
 ## 🏗️ Purpose
 
 This repository provides:
@@ -32,26 +52,30 @@ This repository provides:
 
 ## 🚀 Quick Start
 
-1. Clone this template:
+1. First, ensure you have the core infrastructure running:
+   - Deploy [sira-dagster-core](https://github.com/ali2kan/sira-dagster-core) following its setup instructions
+   - Note the Dagster webserver URL and any required configuration
+
+2. Clone this template:
 
 ```bash
 git clone https://github.com/[your-username]/dagster-code-location-template
 ```
 
-2. Configure your environment:
+3. Configure your environment:
 
 ```bash
 cp .env.example .env
-# Edit .env with your specific configuration
+# Edit .env with your specific configuration and core instance details
 ```
 
-3. Start development server:
+4. Start development server:
 
 ```bash
 docker-compose -f docker-compose-dev.yml up
 ```
 
-4. Access your code location through the Dagster UI at `http://localhost:3000`
+5. Access your code location through the Dagster UI at `http://localhost:3000`
 
 ## 🔧 Configuration
 
@@ -59,10 +83,11 @@ docker-compose -f docker-compose-dev.yml up
 
 Key environment variables (defined in `.env`):
 
-- `DAGSTER_POSTGRES_*`: PostgreSQL connection details
+- `DAGSTER_POSTGRES_*`: PostgreSQL connection details (should match core instance)
 - `GRPC_PORT`: Port for the code location server
 - `PIPELINE_NAME`: Name of your pipeline
 - `WORKING_DIRECTORY`: Pipeline working directory
+- `DAGSTER_CORE_URL`: URL of your [sira-dagster-core](https://github.com/ali2kan/sira-dagster-core) instance
 
 ### Code Location Configuration
 
@@ -114,7 +139,6 @@ git checkout -b feature/my-pipeline
 ## 📚 Additional Resources
 
 - [Dagster Code Location Documentation](https://docs.dagster.io/concepts/code-locations)
+- [sira-dagster-core Documentation](https://github.com/ali2kan/sira-dagster-core/blob/main/README.md)
 - [Docker Documentation](https://docs.docker.com)
 - [Development Guidelines](CONTRIBUTING.md)
-
-change
