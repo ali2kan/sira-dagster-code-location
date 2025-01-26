@@ -9,11 +9,11 @@ dagster-shell>=0.25.8
 dagster-dlt==0.25.9
 dagster-dbt>=0.25.8
 dagster-duckdb>=0.25.8
-
+dagster-pyspark>=0.25.8
 # Utility dependencies
 python-dotenv>=1.0.0
 pydantic>=2.0.0
-
+pyspark>=3.5.0
 # Database and storage dependencies
 dlt>=1.5.0
 clickhouse-connect>=0.8.14
