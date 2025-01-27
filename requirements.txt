@@ -43,3 +43,5 @@ shapely >=2.0.1
 
 # pytest>=7.0.0
 # docker>=6.0.0
+
+lz4>=4.3.2
