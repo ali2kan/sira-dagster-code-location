@@ -2,8 +2,6 @@
 
 <div align="center">
 
-A production-ready Docker template for Dagster Code Locations, providing a standardized starting point for implementing data pipelines.
-
 [![Docker Build](https://github.com/ali2kan/sira-dagster-code-location/actions/workflows/docker-build.yml/badge.svg)](https://github.com/ali2kan/sira-dagster-code-location/actions/workflows/docker-build.yml)
 [![Tests](https://github.com/ali2kan/sira-dagster-code-location/actions/workflows/test.yml/badge.svg)](https://github.com/ali2kan/sira-dagster-code-location/actions/workflows/test.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
