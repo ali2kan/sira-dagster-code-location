@@ -5,10 +5,15 @@ FROM python:3.12-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     tzdata \
+    curl \
+    gcc \
+    g++ \
+    make \
     && ln -sf /usr/share/zoneinfo/UTC /etc/localtime \
     && echo "UTC" > /etc/timezone \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
 
 # Set up working directory
 WORKDIR /opt/dagster/app
