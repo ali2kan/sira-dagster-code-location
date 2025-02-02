@@ -1,5 +1,5 @@
 # FROM python:3.12-slim@sha256:123be5684f39d8476e64f47a5fddf38f5e9d839baff5c023c815ae5bdfae0df7
-FROM python:3.12-slim
+FROM python:3.11-slim
 
 
 
