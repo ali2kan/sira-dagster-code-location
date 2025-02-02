@@ -1,40 +1,29 @@
-x-dagster-service: &dagster-service-template
-  image: ghcr.io/ali2kan/sira-dagster-standard-pipeline:main
-  # image: ${PIPELINE_IMAGE:-standard-pipeline}
-  # build:
-  #   context: .
-  #   dockerfile: Dockerfile
-  env_file:
-    - .env
-  environment: &common-env
-    DAGSTER_POSTGRES_USER: ${POSTGRES_USER}
-    DAGSTER_POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    DAGSTER_POSTGRES_DB: ${POSTGRES_DB}
-    DAGSTER_POSTGRES_HOST: ${POSTGRES_HOST}
-    DAGSTER_POSTGRES_PORT: ${POSTGRES_PORT:-5432}
-    DUCKDB_DATABASE: ${DUCKDB_DATABASE}
-    PYTHONPATH: "/opt/dagster/app"
-    DAGSTER_CURRENT_IMAGE: "ghcr.io/ali2kan/sira-dagster-standard-pipeline:main"
-    PIPELINE_NAME: "default"
-    WORKING_DIRECTORY: "/opt/dagster/${PIPELINE_NAME}"
-
-  networks:
-    - dagster_network
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-  healthcheck:
-    interval: 10s
-    retries: 3
-
 services:
-  sira_dagster_code_location_01: &location-01
-    <<: *dagster-service-template
+  sira_dagster_code_location_01:
     container_name: sira_dagster_code_location_01
+    image: ghcr.io/ali2kan/sira-dagster-standard-pipeline:main
+    # image: ${PIPELINE_IMAGE:-standard-pipeline}
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    env_file:
+      - .env
     environment:
-      <<: *common-env
+      DAGSTER_POSTGRES_USER: ${POSTGRES_USER}
+      DAGSTER_POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DAGSTER_POSTGRES_DB: ${POSTGRES_DB}
+      DAGSTER_POSTGRES_HOST: ${POSTGRES_HOST}
+      DAGSTER_POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+      DUCKDB_DATABASE: ${DUCKDB_DATABASE}
+      PYTHONPATH: "/opt/dagster/app"
+      DAGSTER_CURRENT_IMAGE: "ghcr.io/ali2kan/sira-dagster-standard-pipeline:main"
+      PIPELINE_NAME: "default"
+      WORKING_DIRECTORY: "/opt/dagster/${PIPELINE_NAME}"
       GRPC_PORT: "4000"
     volumes:
       - ./code_location_01:/opt/dagster/app/code_location_01
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/localtime:/etc/localtime:ro
     command:
       [
         "dagster",
@@ -51,62 +40,12 @@ services:
       ]
     ports:
       - "4000:4000"
+    networks:
+      - dagster_network
     healthcheck:
       test: ["CMD", "nc", "-z", "localhost", "4000"]
-
-  sira_dagster_code_location_02:
-    <<: *dagster-service-template
-    container_name: sira_dagster_code_location_02
-    environment:
-      <<: *common-env
-      GRPC_PORT: "4001"
-    volumes:
-      - ./code_location_02:/opt/dagster/app/code_location_02
-    command:
-      [
-        "dagster",
-        "api",
-        "grpc",
-        "-h",
-        "0.0.0.0",
-        "-p",
-        "4001",
-        "-m",
-        "pipelines.default",
-        "-d",
-        "/opt/dagster/app",
-      ]
-    ports:
-      - "4001:4001"
-    healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "4001"]
-
-  sira_dagster_code_location_03:
-    <<: *dagster-service-template
-    container_name: sira_dagster_code_location_03
-    environment:
-      <<: *common-env
-      GRPC_PORT: "4002"
-    volumes:
-      - ./code_location_03:/opt/dagster/app/code_location_03
-    command:
-      [
-        "dagster",
-        "api",
-        "grpc",
-        "-h",
-        "0.0.0.0",
-        "-p",
-        "4002",
-        "-m",
-        "pipelines.default",
-        "-d",
-        "/opt/dagster/app",
-      ]
-    ports:
-      - "4002:4002"
-    healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "4002"]
+      interval: 10s
+      retries: 3
 
 networks:
   dagster_network:
