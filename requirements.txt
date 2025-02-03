@@ -48,4 +48,4 @@ lz4>=4.4.2
 # streamlit>=1.25.0
 # psycopg2-binary>=2.9.9
 
-connectorx>=0.4.1
+connectorx >= 0.4.1
