@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-
+RUN pip install connectorx
 # Set up working directory
 WORKDIR /opt/dagster/app
 
