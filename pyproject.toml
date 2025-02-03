@@ -18,8 +18,6 @@ dependencies = [
     "dagster-aws>=0.25.8",
     "dagster-shell>=0.25.8",
     "dagster-dlt==0.25.9",
-    "python-dotenv>=1.0.0",
-    "pydantic>=2.0.0",
 ]
 
 [tool.dagster]
