@@ -44,7 +44,7 @@ shapely >=2.0.1
 # pytest>=7.0.0
 # docker>=6.0.0
 
-lz4>=4.3.2
+lz4>=4.4.2
 # streamlit>=1.25.0
 # psycopg2-binary>=2.9.9
 
