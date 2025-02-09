@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tzdata \
     curl \
     gcc \
+    git \
     g++ \
     make \
     python3-dev \
