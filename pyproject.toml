@@ -10,7 +10,7 @@ dependencies = [
     "dagster-docker>=0.26.0",
     "dagster-postgres>=0.26.0",
     "dagster-aws>=0.26.0",
-    "dagster-shell>=0.26.0",
+    # "dagster-shell>=0.26.0",
     "dagster-dlt==0.26.0",
     "dagster-dbt>=0.26.0",
     "dagster-duckdb>=0.26.0",
