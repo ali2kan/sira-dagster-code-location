@@ -159,3 +159,8 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 code_location_01/.DS_Store
+
+# UV - Python package installer
+.uv/
+# Do NOT ignore uv.lock as it should be committed
+!uv.lock

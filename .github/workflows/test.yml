@@ -33,13 +33,17 @@ on:
     branches: [main]
     paths:
       - "Dockerfile"
+      - "pyproject.toml"
       - "requirements.txt"
+      - "uv.lock"
       - "tests/**"
   pull_request:
     branches: [main]
     paths:
       - "Dockerfile"
+      - "pyproject.toml"
       - "requirements.txt"
+      - "uv.lock"
       - "tests/**"
 
 jobs:
@@ -48,13 +52,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build test image
-        run: docker build -t dagster-code-location-base:test .
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          buildkitd-flags: --debug
 
-      - name: Test base image functionality
+      - name: Build test image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: dagster-code-location-base:test
+          cache-from: |
+            type=gha,scope=test-buildx
+          cache-to: type=gha,mode=max,scope=test-buildx
+
+      - name: Test Python environment
         run: |
           docker run --rm dagster-code-location-base:test \
-            python -c "import dagster; print(f'Dagster version: {dagster.__version__}')"
+            python -c "import dagster, sys; print(f'Python {sys.version}\nDagster version: {dagster.__version__}')"
+
+      - name: Test uv installation
+        run: |
+          docker run --rm dagster-code-location-base:test \
+            uv --version
 
       - name: Test GRPC server startup
         run: |
@@ -65,3 +86,8 @@ jobs:
           sleep 5
           docker logs test-location
           docker rm -f test-location
+
+      - name: Test dependency installation
+        run: |
+          docker run --rm dagster-code-location-base:test \
+            python -c "import dagster_dlt, dagster_dbt, dagster_aws; print('All dependencies loaded successfully')"

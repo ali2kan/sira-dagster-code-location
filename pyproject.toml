@@ -3,70 +3,105 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-dependencies = [
-    # Core Dagster dependencies
-    "dagster>=1.10.0",
-    "dagster-webserver>=1.10.0",
-    "dagster-docker>=0.26.0",
-    "dagster-postgres>=0.26.0",
-    "dagster-aws>=0.26.0",
-    # "dagster-shell>=0.26.0",
-    "dagster-dlt==0.26.0",
-    "dagster-dbt>=0.26.0",
-    "dagster-duckdb>=0.26.0",
-    "dagster-pyspark>=0.26.0",
-    # Utility dependencies
-    "python-dotenv>=1.0.1",
-    "pydantic>=2.10.6",
-    "pyspark>=3.5.4",
-    # Database and storage dependencies
-    "dlt>=1.6.1",
-    "clickhouse-connect>=0.8.15",
-    "dlt[clickhouse,parquet,postgres,filesystem,duckdb]>=1.6.1",
-    "pyarrow>=12.0.0,<18.0.0",
-    "sqlalchemy~=2.0.38",
-    "s3fs>=2025.2.0",
-    # Data processing dependencies
-    "numpy>=1.26.4",
-    "pandas>=2.2.3",
-    "smart_open>=7.1.0",
-    "smart_open[s3]>=7.1.0",
-    "boto3>=1.36.1",
-    # Utility dependencies
-    "requests>=2.32.3",
-    "PyYAML>=6.0.2",
-    # Dagster Universe dependencies
-    "geopandas>=1.0.1",
-    "kaleido>=1.0.0rc0",
-    "plotly>=6.0.0",
-    "shapely>=2.0.7",
-    # Development dependencies (commented out)
-    "scrapy>=2.11.0",
-    # "pytest>=7.0.0",
-    # "docker>=6.0.0",
-    "psutil>=7.0.0",
-    "lz4>=4.4.3",
-]
-name = "dagster-sira-code-location"
+name = "dagster-sira-data-ingester-v2"
 version = "1.0.0"
 description = "Production-ready Docker deployment setup for Dagster Code Locations"
+readme = "README.md"
 requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [{ name = "Your Name", email = "your.email@example.com" }]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    # Core Dagster - all pinned to same version for compatibility
+    "dagster==1.10.6",
+    "dagster-webserver==1.10.6",
+    "dagster-docker==0.26.6",
+    "dagster-embedded-elt==0.26.6",
+    "dagster-postgres==0.26.6",
+    "dagster-aws==0.26.6",
+    "dagster-dlt==0.26.6",
+    "dagster-dbt==0.26.6",
+    "dagster-polars==0.26.6",
+    "dagster-duckdb==0.26.6",
+    "dagster-pyspark==0.26.6",
+
+    # Database and Storage - using compatible versions
+    "dlt[clickhouse,parquet,postgres,filesystem,duckdb]==1.9.0",
+    "clickhouse-connect==0.8.15",
+    "sqlalchemy==2.0.37",
+    "s3fs==2024.12.0",
+
+    # Data Processing Core
+    "numpy==1.26.4",
+    "pandas==2.2.0",
+    "pyspark==3.5.4",
+    "scipy==1.12.0",
+
+    # Geospatial Processing
+    "geopandas==1.0.1",
+    "shapely==2.0.1",
+    "fiona==1.10.1",
+    "topojson==1.5.0",
+
+    # AWS and Storage
+    "smart_open[s3]==7.1.0",
+    "boto3==1.36.1",
+
+    # Visualization
+    "plotly==5.24.1",
+    "kaleido==1.0.0rc0",
+
+    # Utilities
+    "python-dotenv==1.0.1",
+    "pydantic==2.10.0",
+    "psutil==7.0.0",
+    "requests==2.31.0",
+    "PyYAML==6.0",
+    "urllib3==1.26.18",
+    "lz4==4.3.2",
+    "simplekml==1.3.6",
+    "scrapy==2.11.0",
+]
 
 [project.optional-dependencies]
 dev = [
-    # Development dependencies here
-    "pytest>=7.4.3",
-    # ... other dev dependencies ...
+    # Testing
+    "pytest==7.4.3",
+    "pytest-cov==4.1.0",
+    "pytest-asyncio==0.23.5",
+
+    # Linting and Formatting
+    "black==24.0.0",
+    "ruff==0.3.0",
+    "mypy==1.8.0",
+    "isort==5.13.0",
+
+    # Development Tools
+    "docker==6.0.0",
+    "ipython==8.18.0",
+    "ipdb==0.13.13",
 ]
 
+test = ["pytest==7.4.3", "pytest-cov==4.1.0", "pytest-asyncio==0.23.5"]
+
+lint = ["black==24.0.0", "ruff==0.3.0", "mypy==1.8.0", "isort==5.13.0"]
+
 [tool.dagster]
-module_name = "dagster-sira-code-location"
-code_location_name = "dagster-sira-code-location"
+module_name = "sira_data_ingester_v2"
+code_location_name = "sira_data_ingester_v2"
 
 [tool.black]
 line-length = 150
 preview = true
-# target-version = ['py312']
+target-version = ['py312']
+
 [tool.ruff]
 line-length = 150
 target-version = "py312"
@@ -100,14 +135,41 @@ force-multiline = true
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 addopts = "-ra -q"
-# asyncio_mode = "auto"
+
 [tool.pyright]
 typeCheckingMode = "basic"
 reportMissingTypeStubs = false
-exclude = [".venv", ".env", "venv", "env"]
+reportGeneralTypeIssues = false
+reportAttributeAccessIssue = false
+reportOptionalMemberAccess = false
+reportOptionalOperand = false
+reportOptionalCall = false
+reportOptionalIterable = false
+reportOptionalContextManager = false
+reportOptionalSubscript = false
+reportPrivateImportUsage = false
+reportUnboundVariable = "warning"
+reportWildcardImportFromLibrary = false
+exclude = [
+    "**/site-packages",
+    "**/.venv",
+    "**/venv",
+    "**/env",
+    "/opt/homebrew/**",
+    "/opt/homebrew/Cellar/**",
+    "/opt/homebrew/lib/**",
+    "**/python@*/**",
+    "**/Frameworks/**",
+    ".venv",
+    ".env",
+    "venv",
+    "env",
+]
+ignore = ["**/site-packages", "/opt/homebrew/**"]
 
 [tool.pylance]
-python.analysis.typeCheckingMode = "basic"
+reportMissingImports = "none"
+reportMissingTypeStubs = false
 
 [tool.hatch.build.targets.wheel]
 packages = ["sira_data_ingester_v2"]
