@@ -54,22 +54,37 @@ jobs:
             com.dagster.type=code-location-base
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
 
-      - name: Build and push Docker image
+      # For PRs, build only amd64 and load into Docker for verification
+      - name: Build for testing (PR only)
+        if: github.event_name == 'pull_request'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64
+          load: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:test
+          cache-from: |
+            type=gha,scope=${{ github.ref_name }}-buildx
+            type=gha,scope=main-buildx
+          cache-to: type=gha,mode=max,scope=${{ github.ref_name }}-buildx
+          build-args: |
+            BUILDKIT_CONTEXT_KEEP_GIT_DIR=1
+
+      # For pushes to main or tags, build multi-platform and push to registry
+      - name: Build and push multi-platform images
+        if: github.event_name != 'pull_request'
         uses: docker/build-push-action@v6
         with:
           context: .
           platforms: linux/amd64,linux/arm64
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: |
             type=gha,scope=${{ github.ref_name }}-buildx
             type=gha,scope=main-buildx
           cache-to: type=gha,mode=max,scope=${{ github.ref_name }}-buildx
-          # Enable BuildKit cache for uv
           build-args: |
             BUILDKIT_CONTEXT_KEEP_GIT_DIR=1
-          # Enable better build output for debugging
-          outputs: type=docker,push=false
           provenance: true
           sbom: true
