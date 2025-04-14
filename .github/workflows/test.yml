@@ -66,6 +66,7 @@ jobs:
           context: .
           load: true
           tags: dagster-code-location-base:test
+          platforms: linux/amd64
           cache-from: |
             type=gha,scope=test-buildx
           cache-to: type=gha,mode=max,scope=test-buildx
