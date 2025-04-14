@@ -29,7 +29,7 @@ WORKDIR /opt/dagster/app
 COPY pyproject.toml uv.lock ./
 
 # Install all dependencies from pyproject.toml
-RUN uv pip install --system .
+RUN uv pip install --system -e .
 
 FROM python:3.12-slim
 
