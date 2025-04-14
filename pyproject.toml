@@ -8,7 +8,7 @@ version = "1.0.0"
 description = "Production-ready Docker deployment setup for Dagster Code Locations"
 readme = "README.md"
 requires-python = ">=3.10"
-license = { file = "LICENSE" }
+license = "MIT"
 authors = [{ name = "Sira Data Team", email = "info@sira.ai" }]
 classifiers = [
     "Development Status :: 4 - Beta",

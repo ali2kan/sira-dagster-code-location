@@ -25,11 +25,14 @@ ENV UV_SYSTEM_PYTHON=1
 # Set up working directory
 WORKDIR /opt/dagster/app
 
-# Copy everything needed for the build
-COPY . .
+# Copy pyproject.toml and directly install dependencies
+# This avoids the issue with hatchling looking for LICENSE
+COPY pyproject.toml ./
 
-# Install all dependencies from pyproject.toml
-RUN uv pip install --system .
+# First install tomli to parse the pyproject.toml
+RUN pip install tomli && \
+    python -c "import tomli; deps = tomli.loads(open('pyproject.toml', 'rb').read())['project']['dependencies']; open('requirements.txt', 'w').write('\n'.join(deps))" && \
+    uv pip install --system -r requirements.txt
 
 FROM python:3.12-slim
 
