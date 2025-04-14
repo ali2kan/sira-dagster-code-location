@@ -51,6 +51,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    #timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
 
@@ -79,7 +80,7 @@ jobs:
       - name: Test uv availability
         run: |
           docker run --rm dagster-code-location-base:test \
-            which uv
+            bash -c "which uv && uv --version"
 
       - name: Test GRPC server startup
         run: |

@@ -1,8 +1,7 @@
-FROM python:3.12-slim as builder
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim as builder
 
 # Install build dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
     gcc \
     g++ \
     make \
@@ -17,9 +16,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ENV GDAL_VERSION=3.4.1
 ENV GDAL_CONFIG=/usr/bin/gdal-config
 ENV PROJ_LIB=/usr/share/proj
-
-# Install uv using the official distroless image and set it up for system use
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 ENV UV_SYSTEM_PYTHON=1
 
 # Set up working directory
@@ -35,12 +31,11 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # Copy the rest of the application code
 COPY . .
 
-FROM python:3.12-slim
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
 # Install runtime dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     tzdata \
-    curl \
     git \
     liblz4-dev \
     gdal-bin \
