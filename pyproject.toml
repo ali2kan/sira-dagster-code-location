@@ -9,7 +9,7 @@ description = "Production-ready Docker deployment setup for Dagster Code Locatio
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
-authors = [{ name = "Your Name", email = "your.email@example.com" }]
+authors = [{ name = "Sira Data Team", email = "info@sira.ai" }]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Programming Language :: Python :: 3",
