@@ -37,6 +37,7 @@ on:
       - "requirements.txt"
       - "uv.lock"
       - "tests/**"
+      - ".github/workflows/test.yml"
   pull_request:
     branches: [main]
     paths:
@@ -45,6 +46,7 @@ on:
       - "requirements.txt"
       - "uv.lock"
       - "tests/**"
+      - ".github/workflows/test.yml"
 
 jobs:
   test:
@@ -66,23 +68,36 @@ jobs:
           cache-from: |
             type=gha,scope=test-buildx
           cache-to: type=gha,mode=max,scope=test-buildx
+          build-args: |
+            BUILDKIT_CONTEXT_KEEP_GIT_DIR=1
 
       - name: Test Python environment
         run: |
           docker run --rm dagster-code-location-base:test \
             python -c "import dagster, sys; print(f'Python {sys.version}\nDagster version: {dagster.__version__}')"
 
-      - name: Test uv installation
+      - name: Test uv availability
         run: |
           docker run --rm dagster-code-location-base:test \
-            uv --version
+            which uv
 
       - name: Test GRPC server startup
         run: |
+          # Create example location directory if it doesn't exist
+          mkdir -p example_location
+          # Create a simple test asset in the example location
+          cat > example_location/__init__.py << 'EOF'
+          from dagster import asset, AssetExecutionContext
+
+          @asset
+          def hello_world():
+              return "Hello, World!"
+          EOF
+
           docker run -d --name test-location \
             -v $(pwd)/example_location:/opt/dagster/app/location \
             dagster-code-location-base:test \
-            dagster api grpc -h 0.0.0.0 -p 4000
+            dagster api grpc -h 0.0.0.0 -p 4000 -m location
           sleep 5
           docker logs test-location
           docker rm -f test-location
