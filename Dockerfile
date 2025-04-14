@@ -25,11 +25,11 @@ ENV UV_SYSTEM_PYTHON=1
 # Set up working directory
 WORKDIR /opt/dagster/app
 
-# Copy dependency files first for better caching
-COPY pyproject.toml uv.lock ./
+# Copy entire project for installation
+COPY . .
 
-# Install all dependencies from pyproject.toml
-RUN uv pip install --system .
+# Install dependencies directly from project file, avoiding project installation
+RUN uv pip install --system -r <(grep -v "^#" pyproject.toml | grep -o '".*"' | tr -d '"' | grep -v "dagster-sira-data-ingester")
 
 FROM python:3.12-slim
 
