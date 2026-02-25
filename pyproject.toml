@@ -45,7 +45,7 @@ dependencies = [
 
     # Geospatial Processing
     "geopandas==1.0.1",
-    "shapely==2.0.1",
+    "shapely==2.0.7",
     "fiona==1.10.1",
     "topojson==1.5.0",
 
@@ -137,6 +137,9 @@ force-multiline = true
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 addopts = "-ra -q"
+
+[tool.uv.extra-build-dependencies]
+shapely = ["setuptools"]
 
 [tool.pyright]
 typeCheckingMode = "basic"
