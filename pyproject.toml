@@ -19,57 +19,57 @@ classifiers = [
 
 dependencies = [
     # Core Dagster - all pinned to same version for compatibility
-    "dagster==1.10.6",
-    "dagster-webserver==1.10.6",
-    "dagster-docker==0.26.6",
-    "dagster-embedded-elt==0.26.6",
-    "dagster-postgres==0.26.6",
-    "dagster-aws==0.26.6",
-    "dagster-dlt==0.26.6",
-    "dagster-dbt==0.26.6",
-    "dagster-polars==0.26.6",
-    "dagster-duckdb==0.26.6",
-    "dagster-pyspark==0.26.6",
+    "dagster==1.12.15",
+    "dagster-webserver==1.12.15",
+    "dagster-docker==0.28.15",
+    "dagster-embedded-elt==0.28.15",
+    "dagster-postgres==0.28.15",
+    "dagster-aws==0.28.15",
+    "dagster-dlt==0.28.15",
+    "dagster-dbt==0.28.15",
+    "dagster-polars==0.27.9",
+    "dagster-duckdb==0.28.15",
+    "dagster-pyspark==0.28.15",
 
     # Database and Storage - using compatible versions
-    "dlt[clickhouse,parquet,postgres,filesystem,duckdb]==1.9.0",
-    "clickhouse-connect==0.8.15",
-    "sqlalchemy==2.0.37",
-    "s3fs==2024.12.0",
+    "dlt[clickhouse,parquet,postgres,filesystem,duckdb]==1.22.1",
+    "clickhouse-connect==0.11.0",
+    "sqlalchemy==2.0.47",
+    "s3fs==2026.2.0",
 
     # Data Processing Core
     "numpy==1.26.4",
-    "pandas==2.2.0",
-    "pyspark==3.5.4",
-    "scipy==1.12.0",
+    "pandas==2.3.3",
+    "pyspark==3.5.8",
+    "scipy==1.15.3",
 
     # Geospatial Processing
-    "geopandas==1.0.1",
-    "shapely==2.0.7",
+    "geopandas==1.1.2",
+    "shapely==2.1.2",
     "fiona==1.10.1",
-    "topojson==1.5.0",
+    "topojson==1.10",
 
     # AWS and Storage
-    "smart_open[s3]==7.1.0",
-    "boto3==1.36.1",
+    "smart_open[s3]==7.5.1",
+    "boto3==1.42.55",
 
     # Visualization
-    "plotly==5.24.1",
-    "kaleido==1.0.0rc0",
+    "plotly==6.5.2",
+    "kaleido==1.2.0",
 
     # Utilities
-    "python-dotenv==1.0.1",
-    "pydantic==2.10.0",
-    "psutil==7.0.0",
-    "requests==2.31.0",
-    "PyYAML==6.0.1",
-    "urllib3==1.26.18",
-    "lz4==4.3.2",
+    "python-dotenv==1.2.1",
+    "pydantic==2.12.5",
+    "psutil==7.2.2",
+    "requests==2.32.5",
+    "PyYAML==6.0.3",
+    "urllib3==2.6.3",
+    "lz4==4.4.5",
     "simplekml==1.3.6",
-    "scrapy==2.11.0",
+    "scrapy==2.14.1",
 
-    "sdmx1>=2.0.1",
-    "rclone-python>=0.1.23",
+    "sdmx1>=2.25.1",
+    "rclone-python>=0.1.24",
 ]
 
 [project.optional-dependencies]

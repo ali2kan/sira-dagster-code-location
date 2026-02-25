@@ -60,6 +60,9 @@ jobs:
         with:
           buildkitd-flags: --debug
 
+      - name: Check Dockerfile syntax and best practices
+        run: docker buildx build --check --file Dockerfile .
+
       - name: Build test image
         uses: docker/build-push-action@v6
         with:
@@ -85,11 +88,13 @@ jobs:
 
       - name: Test GRPC server startup
         run: |
+          set -euo pipefail
           # Create example location directory if it doesn't exist
           mkdir -p example_location
+          trap 'docker rm -f test-location >/dev/null 2>&1 || true' EXIT
           # Create a simple test asset in the example location
           cat > example_location/__init__.py << 'EOF'
-          from dagster import asset, AssetExecutionContext
+          from dagster import asset
 
           @asset
           def hello_world():
@@ -101,8 +106,14 @@ jobs:
             dagster-code-location-base:test \
             dagster api grpc -h 0.0.0.0 -p 4000 -m location
           sleep 5
+
+          if [ "$(docker inspect -f '{{.State.Running}}' test-location)" != "true" ]; then
+            echo "Dagster gRPC server did not stay up"
+            docker logs test-location || true
+            exit 1
+          fi
+
           docker logs test-location
-          docker rm -f test-location
 
       - name: Test dependency installation
         run: |
