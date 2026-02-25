@@ -31,7 +31,7 @@
     "pinDigests": true
   },
   "pip_requirements": {
-    "fileMatch": ["^requirements\\.txt$"]
+    "fileMatch": ["^pyproject.toml$"]
   },
   "ignorePaths": ["**/node_modules/**"]
 }

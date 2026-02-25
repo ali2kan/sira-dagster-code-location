@@ -16,3 +16,11 @@ source .venv/bin/activate
 ```bash
 uv pip install -e .
 ```
+
+```bash
+uv lock
+```
+
+```bash
+uv sync
+```
