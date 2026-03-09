@@ -31,6 +31,10 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # Copy the rest of the application code
 COPY . .
 
+# Install the project package itself (so sira_data_ingester_v2 is importable)
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv pip install --system --no-deps .
+
 FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
 # Install runtime dependencies
@@ -67,6 +71,7 @@ COPY . .
 
 # Verify installation and executable paths
 RUN python -c "import dagster; print(f'Dagster version: {dagster.__version__}')" && \
+    python -c "import sira_data_ingester_v2; print('sira_data_ingester_v2 module OK')" && \
     dagster --version
 
 # The command will be provided by docker-compose
